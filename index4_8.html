@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<script>
+"use strict";
+var dw, dh;
+var klinex;
+var otstup = 60;
+
+var canvas = document.createElement('canvas');
+//var greeting = document.createElement('h2', 'what is your name?');
+
+var ctx = canvas.getContext('2d');
+document.body.insertBefore(canvas, document.body.firstChild);
+//console.log(dw);
+//init();
+//console.log(dw,klinex);
+//    canvas.width = dw;
+//    canvas.height = dh;
+document.body.style.backgroundColor = "black";
+document.body.style.overflow = "hidden"
+canvas.style.margin = '0px';
+document.body.style.margin = '0px';
+	ctx.fillRect(0,0,dw,dh);
+
+var klineh;
+var klinel;
+var klineo;
+var klinec;
+
+var klinet;
+var priceh;
+var pricel;
+var pricex;
+var arraym = [];
+var arrayx = [];
+var metrics;
+var mtime;
+var dataobj ={};
+var dataobjx;
+ctx.font = "12px sans-serif";
+var heightf =+/\d*/.exec(ctx.font)[0];
+//dw = document.documentElement.clientWidth;
+//dh = document.documentElement.clientHeight;
+//    canvas.width = dw;
+//    canvas.height = dh;
+
+init();
+function init(){
+dw = document.documentElement.clientWidth;
+dh = document.documentElement.clientHeight
+    canvas.width = dw;
+    canvas.height = dh;
+klinex = (dw-otstup)/5;
+openWss();
+//drawm();
+};
+
+function drawm(){
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,dw,dh);
+var dht;
+var dhx;
+
+//if(priceh<dataobj[dataobjx].h||priceh==undefined||pricel>dataobj[dataobjx].l||pricel==undefined){
+//pricef();
+//}
+for(var i = klinex-1, ii = dataobjx, ph = dataobj[dataobjx].h, pl = dataobj[dataobjx].l; i > 0 && dataobj[ii]!==undefined; i--, ii-=60000){
+//console.log("ph",klinex,i);
+if(ph<dataobj[ii].h||priceh==undefined){
+ph = dataobj[ii].h;
+//console.log(ph,"ph");
+}
+if(pl>dataobj[ii].l||pricel==undefined){
+pl = dataobj[ii].l;
+//console.log(pl,"pl");
+}
+priceh = ph;
+pricel = pl;
+}
+
+pricex = (priceh-pricel);
+var dhi = (dh%(heightf*1));
+dht=(dh-dhi)/heightf*1;
+dhx = ((dht-(dht%2))/2)+((dhi-(dhi%2))/2);
+
+ctx.fillStyle = "white";
+ctx.strokeStyle = "yellow";
+ctx.textBaseline = "middle";
+ctx.textAlign = "start";
+
+//console.log(priceh,pricel,klinex);
+for(var i = dhx,ii=priceh;i<dh; i+=dht,ii-=(pricex/(heightf-1))){
+ctx.fillText((+ii).toFixed(2),dw-otstup,i);
+ctx.beginPath(); 
+ctx.moveTo(dw-otstup,i-0.5);
+ctx.lineTo(dw-otstup-6,i-0.5);
+//console.log(i,dht,dhx);
+ctx.stroke();
+}
+
+
+//var klinexy = (((priceh-klineh)*100)/pricex);
+
+//var klinehh = +((((dh-dhi)-dht)/100)*klinexy).toFixed(0);
+//console.log(dataobj[dataobjx].h,'qweer');
+for(var i= dw-7-otstup-0.5,iii=dataobjx; i>0 && dataobj[iii]!==undefined;i-=5,iii-=60000){
+var procent =((dh-(dhx*2))/100);
+//var iiii=JSON.parse(arraym[iii-1]).k.h;
+//var klinexy = (((priceh-JSON.parse(arraym[0]).k.h)*100)/pricex);
+
+//var kh= +((((dh-dhi)-dht)/100)*(((priceh-JSON.parse(arraym[iii-1]).k.h)*100)/pricex)).toFixed(0);
+//var kh= +((((dh-dhi)-dht)/100)*(((priceh-JSON.parse(arraym[iii-1]).k.h)*100)/pricex)).toFixed(0);
+//console.log(dataobj[iii].h,iii,dataobjx);
+var kh= +((((dh-dhi)-dht)/100)*((((priceh-dataobj[iii].h)*100)/pricex))).toFixed(0);
+//var kh = arraym[arrayx-1].k
+//console.log((+dhx+((((dh-dhi)-dht)/100)*((((priceh-dataobj[iii].h)*100)/pricex)))).toFixed(0),+dhx-0.5+((((dh-dhi)-dht)/100)*((((priceh-dataobj[iii].o)*100)/pricex))).toFixed(0));
+ctx.beginPath(); 
+/*
+if(dataobj[iii].o<dataobj[iii].c){
+ctx.strokeStyle = "lime";
+//ctx.strokeRect(i-3,(procent*(+(((priceh-dataobj[iii].c)*100)/pricex).toFixed(0)))+dhx-0.5,3,((procent*(+(((priceh-dataobj[iii].o)*100)/pricex).toFixed(0)))+dhx-0.5)-((procent*(+(((priceh-dataobj[iii].o)*100)/pricex).toFixed(0)))+dhx-0.5));
+ctx.moveTo(i-2,(procent*(+(((priceh-dataobj[iii].h)*100)/pricex).toFixed(0)))+dhx-0.5);
+ctx.lineTo(i-2,(procent*(+(((priceh-dataobj[iii].c)*100)/pricex).toFixed(0)))+dhx-0.5);
+ctx.strokeRect(i-3,(procent*(+(((priceh-dataobj[iii].c)*100)/pricex).toFixed(0)))+dhx-0.5,2,procent*(+(((dataobj[iii].c-dataobj[iii].o)*100)/pricex)));
+ctx.moveTo(i-2,(procent*(+(((priceh-dataobj[iii].o)*100)/pricex).toFixed(0)))+dhx-0.5);
+ctx.lineTo(i-2,(procent*(+(((priceh-dataobj[iii].l)*100)/pricex).toFixed(0)))+dhx-0.5);
+//ctx.strokeRect(i-3,10,2,10);
+//console.log(procent*(((dataobj[iii].c-dataobj[iii].o)*100)/pricex),dataobj[iii].c,dataobj[iii].o);
+}
+else{
+ctx.fillStyle = "red";
+ctx.strokeStyle = "red";
+ctx.fillRect(i-3+0.5,(procent*(+(((priceh-dataobj[iii].o)*100)/pricex).toFixed(0)))+dhx-0.5,3,((procent*(+(((priceh-dataobj[iii].c)*100)/pricex).toFixed(0)))+dhx-0.5)-((procent*(+(((priceh-dataobj[iii].o)*100)/pricex).toFixed(0)))+dhx-0.5));
+ctx.moveTo(i-1,(procent*(+(((priceh-dataobj[iii].h)*100)/pricex).toFixed(0)))+dhx-0.5);
+ctx.lineTo(i-1,(procent*(+(((priceh-dataobj[iii].l)*100)/pricex).toFixed(0)))+dhx-0.5);
+//ctx.fillRect(i-3+0.5,10,3,10);
+}
+*/
+
+ctx.beginPath(); 
+
+var dkh=(procent*(+(((priceh-dataobj[iii].h)*100)/pricex).toFixed(0)))+dhx-0.5;
+var dkl=(procent*(+(((priceh-dataobj[iii].l)*100)/pricex).toFixed(0)))+dhx-0.5;
+var dko=(procent*(+(((priceh-dataobj[iii].o)*100)/pricex).toFixed(0)))+dhx-0.5;
+var dkc=(procent*(+(((priceh-dataobj[iii].c)*100)/pricex).toFixed(0)))+dhx-0.5;
+if(dataobj[iii].o<dataobj[iii].c){
+ctx.strokeStyle = "lime";
+ctx.moveTo(i-2,dkh);
+ctx.lineTo(i-2,dkc);
+ctx.lineTo(i-1,dkc);
+ctx.lineTo(i-1,dko);
+ctx.lineTo(i-2,dko);
+ctx.lineTo(i-2,dkl);
+ctx.lineTo(i-2,dko);
+ctx.lineTo(i-3,dko);
+ctx.lineTo(i-3,dkc);
+ctx.lineTo(i-2,dkc);
+ctx.closePath();
+ctx.stroke();
+}
+else{
+ctx.fillStyle = "red";
+ctx.strokeStyle = "red";
+ctx.moveTo(i-2,dkh);
+ctx.lineTo(i-2,dko);
+ctx.lineTo(i-1,dko);
+ctx.lineTo(i-1,dkc);
+ctx.lineTo(i-2,dkc);
+ctx.lineTo(i-2,dkl);
+ctx.lineTo(i-2,dkc);
+ctx.lineTo(i-3,dkc);
+ctx.lineTo(i-3,dko);
+ctx.lineTo(i-2,dko);
+ctx.closePath();
+ctx.fill();
+ctx.stroke();
+}
+/*
+ctx.fillStyle = "red";
+ctx.moveTo(i-2,10);
+ctx.lineTo(i-20,10);
+ctx.lineTo(i-20,20);
+ctx.closePath();
+ctx.fill();
+*/
+
+
+//ctx.moveTo(i,+dhx-0.5+((((dh-dhi)-dht)/100)*((((priceh-dataobj[iii].h)*100)/pricex))).toFixed(0),);
+//ctx.moveTo(i,(procent*(+(((priceh-dataobj[iii].h)*100)/pricex).toFixed(0)))+dhx-0.5);
+//console.log(+dhx-0.5+((((dh-dhi)-dht)/100)*((((priceh-dataobj[iii].h)*100)/pricex))).toFixed(0),dataobj[iii].h,ctx.strokeStyle);
+
+//ctx.lineTo(i,(procent*(+(((priceh-dataobj[iii].l)*100)/pricex).toFixed(0)))+dhx-0.5);
+//console.log((((+(((priceh-dataobj[iii].l)*100)/pricex).toFixed(0)))+dhx-0.5),procent,priceh,pricel);
+//ctx.stroke();
+//console.log(i,klinehh);
+}
+}
+function pricef(){
+for(var i = klinex, ii = dataobjx, ph = dataobj[dataobjx].h, pl = dataobj[dataobjx].l; i > 0 && dataobj[ii]!==undefined; i--, ii-=60000){
+//console.log("ph");
+if(ph<dataobj[ii].h||priceh==undefined){
+ph = dataobj[ii].h;
+//console.log(ph);
+}
+if(pl>dataobj[ii].l||pricel==undefined){
+pl = dataobj[ii].l;
+//console.log(pl);
+}
+}
+priceh = ph;
+pricel = pl;
+}
+//openWss();
+function openWss(){
+
+var socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
+
+socket.onmessage = function(event) {
+//var msg = JSON.parse(event.data);
+dataobjx = JSON.parse(event.data).k.t;
+dataobj[dataobjx]=JSON.parse(event.data).k;
+//console.log(dataobj,dataobjx);
+//showLog(event.data);
+drawm();
+};
+}
+window.onresize = priceff;
+function priceff(){
+init();
+//pricef();
+//drawm();
+};
+/*
+socket.onerror = function(error) {
+  alert("ERROR " + error.message);
+console.log(error);
+console.log(error.message);
+};
+socket.onclose = function(event) {
+  if (event.wasClean) {
+    alert('Connection close clear');
+  } else {
+    alert('Fail connection');
+  }
+  alert('Code: ' + event.code + ' reason: ' + event.reason);
+console.log(event);
+};
+*/
+var timeOut;
+var timerId = setInterval(function(){this.timem;
+if (timeOut != dataobjx){
+console.log(timeOut, dataobjx);
+timeOut = dataobjx;
+console.log(timeOut);
+}
+else
+{timeOut=dataobjx;console.log('WSS Error!');openWss();}
+},60000);
+/*
+arraym.unshift(JSON.parse(event.data));
+
+metrics = ctx.measureText(arraym[0].k.h).width;
+klinex = (dw-(metrics*2))/5;
+var pricet = arraym[0].k.h
+
+
+if(arraym[0].E>klinet+1000){
+
+var E = arraym.E;
+//E.toString();
+//console.log(new Date(),arraym[0].E,E , arraym[0].k.h);
+klinet = arraym[0].E;  
+}
+for(var i=0; i<klinex && i<=arraym.length-1; i++){
+//console.log(arraym[i].E, i, "klinex", klinex, "arraym", arraym.length-1, "priceh", priceh);
+//var pricehl = arraym[0].k.h
+//console.log(arraym[0].E.length, +new Date);
+if (pricet<arraym[0].k.h){
+///console.log(arraym[0].E, +new Date);
+//pricet=arraym[0].k.h;
+}
+
+}
+priceh = pricet;
+//console.log(priceh);
+*/
+//};
+/*
+function resize(){
+
+ pole(8000, 8140);
+}
+window.onresize = resize;
+pole(8000, 8140);
+function pole (marketl, marketh){
+dw = document.documentElement.clientWidth;
+dh = document.documentElement.clientHeight;
+    canvas.width = dw;
+    canvas.height = dh;
+	ctx.fillRect(0,0,dw,dh);
+
+ctx.fillStyle = "white";
+
+
+
+
+
+ctx.fillText(metrics,300,400);
+ctx.fillText(metrics*1.25,400,400);
+ctx.fillText(metrics,90,400);
+ctx.textBaseline = "middle";
+ctx.textAlign = "start";
+ctx.strokeStyle= "yellow";
+//marketlx = marketh-marketl;
+var d = 0;
+
+//for(w=dh, i=0; w>heightf; w/=(heightf*4), i+=heightf, d+=1){
+//ctx.fillText(w+"  "+heightf+"  "+d,300,150+i)
+//}
+var a;
+var ii;// = (dh/1.2)/(heightf/2);
+var iw = 1;
+for(a=dh, ii = heightf; a>heightf; a=dh/ii, ii+=(heightf*1), iw++);
+//for(a=dh, ii = heightf; a>ii; ii+=(heightf*1), iw++);
+console.log("a: ", a+" dh "+dh+" ii "+ii, "iw", iw);
+var ht = heightf*a;
+var dht = dh-ht;
+var qw = ((dh/ht)/2);
+var y=(dht/ht);
+var x=((dht%ht)/2)+(ht/2);
+//ctx.fillText(String(ht)+" "+  dht+" "+ qw+"y "+y+" x "+ x+"pr "+"pr",20,50);
+
+var iq = ((dh%ii)/2)+(ii/2);
+
+//var testa =
+//for (i=dw-metrics; i>0; i-=6){
+//ctx.fillRect(i-4,dh/2,4,i);
+//};
+for(var i=iq, ie=1; dh>=i ; marketl+=3, i+=ii, ie++){
+ctx.fillText(marketh +"ie"+ie,dw-(metrics*1.6),i);
+ctx.beginPath(); 
+ctx.moveTo(dw-(metrics*2),i-0.5);
+ctx.lineTo(dw-(metrics*2)-6,i-0.5);
+ctx.stroke();
+}
+//skline = dw-(metrics*2)-metrics/3;
+//for(i=skline, io=0; i>0; i-=5, io--){
+//if (marketh<arraym[io].E){
+//marketh=arraym[io].E;
+//}
+//}
+
+ctx.beginPath();
+ctx.lineWidth=1;
+ctx.strokeStyle = "lime";
+ctx.closePath();
+for(var i=klineh;i>0;i-=5){
+ctx.rect(i,170.5,2,100);
+};
+ctx.stroke();
+
+
+//  console.log(arraym[0].k.h);
+//console.log("array", );
+}
+//var arraym = [];
+*/
+
+</script>
+</body>
+</html>
